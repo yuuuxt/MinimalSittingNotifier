@@ -23,7 +23,8 @@ namespace MinimalSittingNotifier
         public MainWindow()
         {
             InitializeComponent();
-            this.WindowState = WindowState.Minimized;
+            this.Visibility = Visibility.Hidden;
+            // this.WindowState = WindowState.Minimized;
         }
     }
 }
