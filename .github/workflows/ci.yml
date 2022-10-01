@@ -1,18 +1,21 @@
-name: .NET 5 CI
-on: [push]
+name: .NET 6 CI
+on: 
+  push:
+    branches:
+      - master
 
 jobs:
   build:
     runs-on: windows-latest
-    name: .NET 5 Application
+    name: .NET 6 Application
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Setup dotnet
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '5.0.301' # Check for latest at link at .NET 5 download page
+          dotnet-version: '6.0.401' # Check for latest at link at .NET 5 download page
       - run: dotnet publish -r win-x64 -p:PublishSingleFile=true -c Release --self-contained false
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: MinimalSittingNotifier-win-64.exe
-          path: bin/Release/net5.0-windows/win-x64/publish/MinimalSittingNotifier.exe
+          path: bin/Release/net6.0-windows/win-x64/publish/MinimalSittingNotifier.exe
