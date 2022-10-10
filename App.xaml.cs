@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
 using System.Drawing;
-using System.Dynamic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using Forms = System.Windows.Forms;
 
@@ -14,13 +8,13 @@ namespace MinimalSittingNotifier {
     /// Interaction logic for App.xaml
     /// </summary>
     public partial class App : Application {
-        private readonly int _maxSitMinute = 30;
-        private          int _timeCountNumber;
+        private const int MaxSitMinute = 30;
+        private       int _timeCountNumber;
 
         private readonly Font  _defaultIconFont      = new Font("Calibri", 8);
         private readonly Color _defaultIconFontColor = Color.White;
         private readonly Color _defaultIconStopColor = Color.Yellow;
-        private readonly int   _iconSize             = 16;
+        private const    int   IconSize              = 16;
 
         private System.Timers.Timer _timer;
 
@@ -32,7 +26,7 @@ namespace MinimalSittingNotifier {
         }
 
         protected override void OnStartup(StartupEventArgs e) {
-            ShowNumberIcon(_maxSitMinute.ToString());
+            ShowNumberIcon(MaxSitMinute.ToString());
             _notifyIcon.ContextMenuStrip = new Forms.ContextMenuStrip();
             _notifyIcon.ContextMenuStrip.Items.Add("Exit", null, ExitProgram);
             _notifyIcon.MouseClick += ReStartTimer;
@@ -43,7 +37,7 @@ namespace MinimalSittingNotifier {
         }
 
         private void StartTimer() {
-            _timeCountNumber = _maxSitMinute;
+            _timeCountNumber = MaxSitMinute;
 
             _timer         =  new System.Timers.Timer(1000 * 60); //1 sec * 60 = 1 min interval;
             _timer.Elapsed += OnTimedEvent;
@@ -75,10 +69,9 @@ namespace MinimalSittingNotifier {
             Environment.Exit(0);
         }
 
-
         private void ShowNumberIcon(String numberText) {
             Brush    brush    = new SolidBrush(_defaultIconFontColor);
-            Bitmap   bitmap   = new Bitmap(_iconSize, _iconSize);
+            Bitmap   bitmap   = new Bitmap(IconSize, IconSize);
             Graphics graphics = Graphics.FromImage(bitmap);
             graphics.DrawString(numberText, _defaultIconFont, brush, 0, 0);
 
@@ -86,17 +79,15 @@ namespace MinimalSittingNotifier {
             _notifyIcon.Icon = icon;
         }
 
-
         private void ShowStopIcon() {
             Brush    brush    = new SolidBrush(_defaultIconStopColor);
-            Bitmap   bitmap   = new Bitmap(_iconSize, _iconSize);
+            Bitmap   bitmap   = new Bitmap(IconSize, IconSize);
             Graphics graphics = Graphics.FromImage(bitmap);
-            graphics.FillRectangle(brush, 0, 0, _iconSize, _iconSize);
+            graphics.FillRectangle(brush, 0, 0, IconSize, IconSize);
 
-            Icon icon = Icon.FromHandle(bitmap.GetHicon());
+            var icon = Icon.FromHandle(bitmap.GetHicon());
             _notifyIcon.Icon = icon;
         }
-
 
         protected override void OnExit(ExitEventArgs e) {
             _notifyIcon.Visible = false;
